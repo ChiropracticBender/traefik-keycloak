@@ -1,3 +1,5 @@
+# NOT READY YET, FAILS AFTER SECOND STARTUP. INVESTIGATING WHY
+
 # What does this docker-compose yml do?
 > This docker-compose file is being used in conjuction with specific setup with Traefik 2. I have not tested its usability with a differnt setup of Traefik 2. I'll document that setup later.
 
