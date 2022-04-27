@@ -8,7 +8,7 @@
 
 >without console output
 
-```docker-compose -f keycloak.yml up -d``` this will create/run this setup without console output
+```docker-compose -f keycloak.yml up -d``` 
 
 
 ## ENV {ENVIROMENT FILE}
