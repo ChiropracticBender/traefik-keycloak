@@ -3,8 +3,11 @@
 
 #### How to deploy this YML file?
 >with console output
+
 ```docker-compose -f keycloak.yml up``` 
+
 >without console output
+
 ```docker-compose -f keycloak.yml up -d``` this will create/run this setup without console output
 
 
