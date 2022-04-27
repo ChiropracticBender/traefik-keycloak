@@ -1,0 +1,50 @@
+version: "3.4"
+
+services:
+  keycloak_db:
+    image: postgres:11.2-alpine
+    restart: unless-stopped
+    container_name: keycloak_db
+    environment:
+        - POSTGRES_DB=${DB_DB}
+        - POSTGRES_USER=${DB_USER}
+        - POSTGRES_PASSWORD=${DB_PASSWORD}
+        - POSTGRES_ROOT_PASSWORD=${ROOT-PASSWORD}
+    networks:
+      proxy:
+    volumes:
+      - ./keycloak-data:/var/lib/postgresql/data
+    labels:
+      - "traefik.enable=false"
+
+  keycloak:
+    image: jboss/keycloak:latest
+    restart: unless-stopped
+    container_name: keycloak
+    hostname: ${DOMAIN_NAME}
+    environment:
+      - DB_VENDOR=POSTGRES
+      - DB_ADDR=keycloak_db
+      - DB_DATABASE=${DB_DB}
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_SCHEMA=public
+      - DB_PASSWORD=${DB_PASSWORD}
+      - PROXY_ADDRESS_FORWARDING=true
+      - KEYCLOAK_LOGLEVEL=INFO
+      - KEYCLOAK_USER=${KEYCLOAK_USER}
+      - KEYCLOAK_PASSWORD=${KEYCLOAK_PASSWORD}
+    networks:
+      proxy:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.keycloak-secure.entrypoints=websecure"
+      - "traefik.http.routers.keycloak-secure.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.keycloak-secure.service=keycloak"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+    command: ["-b", "0.0.0.0", "-Dkeycloak.profile.feature.docker=enabled"]
+
+networks:
+  proxy:
+    external: true
