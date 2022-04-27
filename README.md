@@ -2,8 +2,8 @@
 > This docker-compose file is being used in conjuction with specific setup with Traefik 2. I have not tested its usability with a differnt setup of Traefik 2. I'll document that setup later.
 
 #### How to deploy this YML file?
-```docker-compose -f keycloak.yml up```
-```docker-compose -f keycloak.yml up -d```
+```docker-compose -f keycloak.yml up``` #this will create/run this setup with console output
+```docker-compose -f keycloak.yml up -d``` #this will create/run this setup without console output
 
 
 ## ENV {ENVIROMENT FILE}
